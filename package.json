@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && cd dist/ && node main.js"
+    "start": "npm build && npm run run",
+    "build": "npx tsc",
+    "run": "cd dist/ && node main.js"
   },
   "keywords": [],
   "author": "",
@@ -16,9 +18,7 @@
     "socket.io": "^4.0.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3",
-    "ws": "^7.4.4"
-  },
-  "devDependencies": {
+    "ws": "^7.4.4",
     "@types/ws": "^7.4.1"
   }
 }

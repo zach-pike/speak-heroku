@@ -6,6 +6,6 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "module": "CommonJS",
-        "outDir": "dist/"
+        "outDir": "dist/",
     }
 }
