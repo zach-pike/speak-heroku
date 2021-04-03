@@ -5,6 +5,7 @@ const WebSocket = require("ws");
 const ws = new WebSocket(process.env.IPADDR || "ws://127.0.0.1:8085");
 const express = require("express");
 const banned = require("./bannedWords.json");
+const DOMPurify = require("dompurify");
 const port = parseInt(process.env.PORT) || 80;
 const app = express();
 app.set("port", port);
@@ -26,7 +27,7 @@ io.on("connection", (socket) => {
         if (data.length < 2500 + 30 && !banned.includes(data)) {
             ws.send(data);
             console.log(data);
-            io.emit("messageshown", data);
+            io.emit("messageshown", DOMPurify.sanitize(data));
         }
     });
 });

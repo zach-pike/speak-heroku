@@ -10,6 +10,8 @@ import * as socketio from "socket.io";
 
 import * as banned from "./bannedWords.json"
 
+const DOMPurify = require("dompurify")
+
 const port = parseInt(process.env.PORT) || 80
 
 const app = express();
@@ -38,7 +40,9 @@ io.on("connection", (socket: socketio.Socket) => {
         if (data.length < 2500 + 30 && !banned.includes(data) ) {
             ws.send(data)
             console.log(data)
-            io.emit("messageshown", data)
+
+
+            io.emit("messageshown", DOMPurify.sanitize(data))
         } 
     })
 })
