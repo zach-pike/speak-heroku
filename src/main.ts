@@ -29,7 +29,7 @@ app.get("/mainjs", (req: Request, res: Response) => {
 
 io.on("connection", (socket: socketio.Socket) => {
     socket.on("texttosay", (data: string) => {
-        if (data.length > 2500 + 30) {
+        if (data.length < 2500 + 30) {
             ws.send(data)
             console.log(data)
         } 
