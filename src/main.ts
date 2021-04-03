@@ -8,6 +8,8 @@ const ws = new WebSocket(process.env.IPADDR || "ws://127.0.0.1:8085")
 import * as express from "express";
 import * as socketio from "socket.io";
 
+import * as banned from "./bannedWords.json"
+
 const port = parseInt(process.env.PORT) || 80
 
 const app = express();
@@ -29,7 +31,7 @@ app.get("/mainjs", (req: Request, res: Response) => {
 
 io.on("connection", (socket: socketio.Socket) => {
     socket.on("texttosay", (data: string) => {
-        if (data.length < 2500 + 30) {
+        if (data.length < 2500 + 30 && !banned.includes(data) ) {
             ws.send(data)
             console.log(data)
         } 

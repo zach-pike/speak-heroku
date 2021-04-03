@@ -7,5 +7,6 @@
         "noImplicitThis": true,
         "module": "CommonJS",
         "outDir": "dist/",
+        "resolveJsonModule": true
     }
 }
