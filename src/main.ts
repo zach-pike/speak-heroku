@@ -29,11 +29,16 @@ app.get("/mainjs", (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "../public/script.js"))
 })
 
+app.get("/iframe", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../public/iframe.html"))
+})
+
 io.on("connection", (socket: socketio.Socket) => {
     socket.on("texttosay", (data: string) => {
         if (data.length < 2500 + 30 && !banned.includes(data) ) {
             ws.send(data)
             console.log(data)
+            io.emit("messageshown", data)
         } 
     })
 })

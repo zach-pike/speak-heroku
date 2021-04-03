@@ -4,6 +4,7 @@ const path = require("path");
 const WebSocket = require("ws");
 const ws = new WebSocket(process.env.IPADDR || "ws://127.0.0.1:8085");
 const express = require("express");
+const banned = require("./bannedWords.json");
 const port = parseInt(process.env.PORT) || 80;
 const app = express();
 app.set("port", port);
@@ -17,10 +18,16 @@ app.get("/", (req, res) => {
 app.get("/mainjs", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/script.js"));
 });
+app.get("/iframe", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/iframe.html"));
+});
 io.on("connection", (socket) => {
     socket.on("texttosay", (data) => {
-        ws.send(data);
-        console.log(data);
+        if (data.length < 2500 + 30 && !banned.includes(data)) {
+            ws.send(data);
+            console.log(data);
+            io.emit("messageshown", data);
+        }
     });
 });
 http.listen(port, () => {
