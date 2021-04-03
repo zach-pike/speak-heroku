@@ -1,5 +1,5 @@
 const socket = io()
-var cooldownTime = 10000
+var cooldownTime = 3000
 
 var cooldown = 0
 
