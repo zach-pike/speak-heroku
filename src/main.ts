@@ -12,7 +12,6 @@ const ws = new WebSocket(process.env.IPADDR || "ws://127.0.0.1:8085")
 import * as express from "express";
 import * as socketio from "socket.io";
 
-
 //import banned words
 import * as banned from "./bannedWords.json"
 
@@ -48,15 +47,12 @@ io.on("connection", (socket: socketio.Socket) => {
 
         if (data.length < 2500 + 30 && !banned.includes(data)) {
 
-            console.log(usragent.parse(socket.request.headers['user-agent']))
-
-            ws.send(data)
-            io.emit("messageshown", data)
-
+            if (usragent.parse(socket.request.headers['user-agent']).family != "Other") {
+                ws.send(data)
+                io.emit("messageshown", data)
+            }
         } 
-
     })
-
 })
 
 http.listen(port, () => {
