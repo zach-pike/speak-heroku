@@ -1,16 +1,23 @@
+//path and req res types
 import { Request, Response } from "express";
 import * as path from "path";
 
+//ws lib
 import * as WebSocket from "ws"
 
+//connect to my computer
 const ws = new WebSocket(process.env.IPADDR || "ws://127.0.0.1:8085")
 
+//express
 import * as express from "express";
 import * as socketio from "socket.io";
 
+
+//import banned words
 import * as banned from "./bannedWords.json"
 
-const DOMPurify = require("dompurify")
+//useragent parser
+import * as usragent from "useragent";
 
 const port = parseInt(process.env.PORT) || 80
 
@@ -36,15 +43,20 @@ app.get("/iframe", (req: Request, res: Response) => {
 })
 
 io.on("connection", (socket: socketio.Socket) => {
+
     socket.on("texttosay", (data: string) => {
-        if (data.length < 2500 + 30 && !banned.includes(data) ) {
+
+        if (data.length < 2500 + 30 && !banned.includes(data)) {
+
+            console.log(usragent.parse(socket.request.headers['user-agent']))
+
             ws.send(data)
-            console.log(data)
+            io.emit("messageshown", data)
 
-
-            io.emit("messageshown", DOMPurify.sanitize(data))
         } 
+
     })
+
 })
 
 http.listen(port, () => {
