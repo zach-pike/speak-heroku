@@ -8,6 +8,8 @@ import * as WebSocket from "ws"
 //connect to my computer
 const ws = new WebSocket(process.env.IPADDR || "ws://127.0.0.1:8085")
 
+const codeword = process.env.OWNERSECRET || "owner"
+
 //express
 import * as express from "express";
 import * as socketio from "socket.io";
@@ -41,6 +43,10 @@ app.get("/iframe", (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "../public/iframe.html"))
 })
 
+app.get("/im", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../public/chat.html"))
+})
+
 io.on("connection", (socket: socketio.Socket) => {
 
     socket.on("texttosay", (data: string) => {
@@ -50,8 +56,16 @@ io.on("connection", (socket: socketio.Socket) => {
             if (usragent.parse(socket.request.headers['user-agent']).family != "Other") {
                 ws.send(data)
                 io.emit("messageshown", data)
+
+                console.log(data)
             }
         } 
+    })
+
+    socket.on("chat", (data: { text: string, codeWord: string }) => {
+        if (data.text.length < 250+1) {
+            io.emit("chat", { "text": data.text, "who": (data.codeWord == codeword ? "<b>Zach (creator)</b>" : "Anon") })
+        }
     })
 })
 

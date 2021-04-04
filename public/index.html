@@ -25,6 +25,12 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+        <style>
+            #note {
+                font-style: italic;
+                font-size: 10px;
+            }
+        </style>
     </head>
     <body class="bg-dark">
         <!--[if lt IE 7]>
@@ -48,20 +54,22 @@
 
                 <div class="row pb-3">
                     <div class="mx-auto">
-                        
                         <h1>TTS Messages recently sent</h1>
+                        <iframe src="/iframe" width="500" height="400" frameBorder="0">No iframe souuprt :(</iframe>
                     </div>
-                </div>
 
-                <div class="row pb-3">
                     <div class="mx-auto">
-                        
-                        <iframe src="/iframe" width="700" height="700" frameBorder="0">No iframe souuprt :(</iframe>
+                        <h1>Chat (Not spoken)</h1>
+                        <p id="note">The actual Zach will be denoted as "<b>Zach (creator)</b>" please ignore any impostors</p>
+                        <iframe src="/im" width="400" height="400"></iframe>
                     </div>
                 </div>
                 
-                
+                <footer>
+                    <strong>Add me on discord! ZachTurnPike#2735</strong>
+                </footer>
             </div>
+            
         </div>
         
         <script src="/mainjs" async defer></script>
