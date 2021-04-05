@@ -85,7 +85,7 @@
 
         <div id="bar">
             <input type="text" maxlength="250" id="text">
-            <button onclick="send($('#text').val()); $('#text').val('')">Send!</button>
+            <button onclick="send()">Send!</button>
             <input type="text" placeholder="Secret..." id="ownerSecret">
         </div>
         
@@ -105,16 +105,17 @@
                 }                
             })
 
-            function send(text) {
-                
-                socket.emit("chat", {text, codeWord: $("#ownerSecret").val()})
+            function send() {
+                let text = $('#text').val();
+                $('#text').val("");
+                let codeWord = $("#ownerSecret").val()
+
+                socket.emit("chat", {text, codeWord})
             }
 
-            $("input").on("keyup", (e) => {
+            $("#text").on("keyup", (e) => {
                 if (e.which == 13) {
-                    send($("text").val())
-
-                    $("text").val("")
+                    send()
                 } 
             })
 
