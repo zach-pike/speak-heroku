@@ -77,8 +77,8 @@ io.on("connection", (socket: socketio.Socket) => {
 
     socket.on("chat", (data: { text: string, codeWord: string }) => {
         if (data.text.length < 250+1) {
-            console.log(chalk.red.bold(`Chat message from ${(data.codeWord != codeword ? ownerName : "Anon")}`))
-            io.emit("chat", { "text": data.text, "who": (data.codeWord != codeword ? `<b>${ownerName}</b>` : "Anon") })
+            console.log(chalk.red.bold(`Chat message from ${(data.codeWord == codeword ? ownerName : "Anon")}: ${data.text}`))
+            io.emit("chat", { "text": data.text, "who": (data.codeWord == codeword ? `<b>${ownerName}</b>` : "Anon") })
         }
     })
 })
