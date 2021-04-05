@@ -76,7 +76,7 @@
 
         <div id="bar">
             <input type="text" maxlength="250">
-            <button>Send!</button>
+            <button onclick="send($('input').val()); $('input').val('')">Send!</button>
         </div>
         
         <script defer>
